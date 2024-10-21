@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectAllUsers, selectUserError, selectUserStatus } from '../features/user/userSlice'
-import { fetchUsers } from '../features/user/userApi'
+import { selectAllUsers, selectUserError, selectUserStatus } from '../features/admin/adminSlice'
+import { fetchUsers } from '../features/admin/adminApi'
 import { AppDispatch } from '../app/store'
 
 const Users = () => {

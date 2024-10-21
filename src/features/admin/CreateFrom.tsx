@@ -1,12 +1,17 @@
 import React from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import { UserType } from '../../constant/types'
+import { useDispatch } from 'react-redux'
+import { createUserApi } from './adminApi'
+import { AppDispatch } from '../../app/store'
 
 type Props = {
   user?: UserType
 }
 
 const CreateFrom = ({ user }: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
+
   const {
     register,
     handleSubmit,
@@ -17,6 +22,9 @@ const CreateFrom = ({ user }: Props) => {
   const onSubmit = (data: FieldValues) => {
     console.log("data")
     console.log(data)
+    const { confirmPassword, ...rest } = data
+    const user = { photo: '', ...rest } as UserType
+    dispatch(createUserApi(user))
   }
 
   return (

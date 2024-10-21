@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../constant/axiosInstance";
+import { UserType } from "../../constant/types";
 
 export const fetchUsers = createAsyncThunk('/admin/fetchUsers', async () => {
   try {
@@ -14,9 +15,10 @@ export const fetchUsers = createAsyncThunk('/admin/fetchUsers', async () => {
   }
 })
 
-export const createUser = createAsyncThunk('/admin/createUser', async (user) => {
+export const createUserApi = createAsyncThunk('/admin/createUser', async (user:UserType) => {
   try {
-    
+    const res = await axiosInstance.post('/admin/user',user)
+    return res.data
   } catch (error) {
     if (error instanceof Error)
       return error.message

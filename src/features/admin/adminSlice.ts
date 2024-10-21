@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { StateType, UserType } from "../../constant/types"
-import { fetchUsers } from "./userApi"
+import { createUserApi, fetchUsers } from "./adminApi"
 import { RootState } from "../../app/store"
 
 type UserStateType = {
@@ -18,7 +18,7 @@ const initialState: UserStateType = {
 
 
 
-const userSlice = createSlice({
+const adminSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {},
@@ -39,18 +39,22 @@ const userSlice = createSlice({
         state.error = action.error.message
       })
 
+      .addCase(createUserApi.fulfilled, (state, action) => {
+        state.status = 'success'
+        state.users.push(action.payload)
+      })
 
 
   }
 })
 
 
-export const selectAllUsers = (state: RootState) => state.user.users
-export const selectUserStatus = (state: RootState) => state.user.status
-export const selectUserError = (state: RootState) => state.user.error
+export const selectAllUsers = (state: RootState) => state.admin.users
+export const selectUserStatus = (state: RootState) => state.admin.status
+export const selectUserError = (state: RootState) => state.admin.error
 
 export const {
 
-} = userSlice.actions
+} = adminSlice.actions
 
-export default userSlice.reducer
+export default adminSlice.reducer
