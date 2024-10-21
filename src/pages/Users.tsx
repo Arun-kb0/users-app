@@ -4,6 +4,7 @@ import { selectAllUsers, selectUserError, selectUserStatus } from '../features/a
 import { fetchUsers } from '../features/admin/adminApi'
 import { AppDispatch } from '../app/store'
 import UserCard from '../features/admin/UserCard'
+import { toast } from 'react-toastify'
 
 const Users = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -37,9 +38,9 @@ const Users = () => {
     <section className='main-section'>
       <div>
         <h2 className='title'>Users</h2>
-        
+
         <div className='flex gap-4 flex-wrap'>
-        {content}
+          {content}
         </div>
 
       </div>

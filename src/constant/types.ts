@@ -7,3 +7,5 @@ export type UserType = {
   password: string;
   photo: string;
 }
+
+
