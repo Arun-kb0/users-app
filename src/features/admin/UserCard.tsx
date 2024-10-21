@@ -2,12 +2,24 @@ import { Link } from 'react-router-dom'
 import { UserType } from '../../constant/types'
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { useDispatch } from 'react-redux';
+import { deleteUserApi } from './adminApi';
+import { AppDispatch } from '../../app/store';
 
 type Props = {
   user: UserType
 }
 
 const UserCard = ({ user }: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
+  
+  const handleDelete = () => {
+    if (user) {
+      dispatch(deleteUserApi(user.userId))
+      
+    }
+  }
+
   return (
     <section className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
@@ -20,7 +32,7 @@ const UserCard = ({ user }: Props) => {
           <Link to={`/admin/edit/${user.userId}`} >
             <FaEdit size={24} className='text-orange-400' />
           </Link>
-          <button >
+          <button onClick={handleDelete}>
             <MdDelete size={24} className='text-red-500' />
           </button>
         </div>

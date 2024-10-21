@@ -28,11 +28,9 @@ const CreateFrom = ({ user }: Props) => {
     const userData = { photo: '', ...rest } as UserType
     if (user) {
       dispatch(editUserApi({ user: userData, userId: user.userId }))
-      toast("user updated")
       return
     }
     dispatch(createUserApi(userData))
-    toast("user created")
   }
 
 

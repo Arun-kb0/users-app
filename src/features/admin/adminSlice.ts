@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { StateType, UserType } from "../../constant/types"
-import { createUserApi, editUserApi, fetchUsers } from "./adminApi"
+import { createUserApi, deleteUserApi, editUserApi, fetchUsers } from "./adminApi"
 import { RootState } from "../../app/store"
 
 type UserStateType = {
@@ -46,16 +46,22 @@ const adminSlice = createSlice({
         state.error = action.error.message
       })
 
-      .addCase(createUserApi.fulfilled, (state, action) => {
+      .addCase(createUserApi.fulfilled, (state, action: PayloadAction<UserType>) => {
         state.status = 'success'
         state.users.push(action.payload)
       })
-      
+
       .addCase(editUserApi.fulfilled, (state, action: PayloadAction<UserType>) => {
         state.status = 'success'
         const user = action.payload
-        state.users.filter(item=> item.userId !== user.userId)
+        state.users =  state.users.filter(item => item.userId !== user.userId)
         state.users.push(user)
+      })
+
+      .addCase(deleteUserApi.fulfilled, (state, action: PayloadAction<UserType>) => {
+        state.status = 'success'
+        const { userId } = action.payload
+        state.users =  state.users.filter(user => user.userId !== userId)
       })
 
 
