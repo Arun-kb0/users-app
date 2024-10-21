@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectAllUsers, selectUserError, selectUserStatus } from '../features/admin/adminSlice'
 import { fetchUsers } from '../features/admin/adminApi'
 import { AppDispatch } from '../app/store'
+import UserCard from '../features/admin/UserCard'
 
 const Users = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -26,7 +27,7 @@ const Users = () => {
     content = <p>Loading....</p>
   } else if (status === 'success') {
     content = users.map(user => (
-      <p key={user.userId}> {user.name} </p>
+      <UserCard key={user.userId} user={user} />
     ))
   } else if (status === 'failed') {
     content = <p>{error}</p>
@@ -36,7 +37,11 @@ const Users = () => {
     <section className='main-section'>
       <div>
         <h2 className='title'>Users</h2>
+        
+        <div className='flex gap-4 flex-wrap'>
         {content}
+        </div>
+
       </div>
     </section>
   )
