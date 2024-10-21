@@ -5,12 +5,14 @@ import CreateUser from './pages/CreateUser'
 import EditUser from './pages/EditUser'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from './components/Navbar'
 
 
 
 const App = () => {
   return (
     <>
+      <Navbar/>
       <ToastContainer theme='dark'/>
 
       <Routes>

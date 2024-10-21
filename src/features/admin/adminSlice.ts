@@ -30,7 +30,6 @@ const adminSlice = createSlice({
     }
   },
 
-  // * inject builder
   extraReducers: (builder) => {
     builder.
 
