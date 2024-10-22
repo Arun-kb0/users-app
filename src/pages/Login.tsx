@@ -1,19 +1,26 @@
 import React from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 type Props = {}
 
 const Login = (props: Props) => {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const from = location.state?.from?.pathname || '/'
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset: resetForm
   } = useForm()
 
   const onSubmit = (data: FieldValues) => {
     console.log("data")
     console.log(data)
+
+    // * after sub,mission
+    navigate(from, {replace: true})
   }
 
   return (
