@@ -36,7 +36,7 @@ const Users = () => {
 
   return (
     <section className='main-section'>
-      <div>
+      <div className='px-4'>
         <h2 className='title'>Users</h2>
 
         <div className='flex gap-4 flex-wrap'>

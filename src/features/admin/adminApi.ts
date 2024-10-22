@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../constant/axiosInstance";
 import { UserType } from "../../constant/types";
 import { toast } from "react-toastify";
+import errorHandler from "../../errorHandler/errorHandler";
 
 export const fetchUsers = createAsyncThunk('/admin/fetchUsers', async () => {
   try {
@@ -26,10 +27,7 @@ export const createUserApi = createAsyncThunk('/admin/createUser', async (user: 
     console.log(res.data)
     return res.data.user
   } catch (error) {
-    if (error instanceof Error) {
-      toast.error(error.message)
-      return error.message
-    }
+    return errorHandler(error)
   }
 })
 
