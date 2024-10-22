@@ -1,21 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { login, refresh } from '../features/auth/authApi'
 import { AppDispatch } from '../app/store'
-import { selectAuthStatus } from '../features/auth/authSlice'
+import { selectAuthStatus, selectAuthUser } from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
+import { roles } from '../constant/enums'
 
 type Props = {}
 
 const Login = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>()
   const status = useSelector(selectAuthStatus)
+  const user = useSelector(selectAuthUser)
 
   const location = useLocation()
   const navigate = useNavigate()
-  const from = location.state?.from?.pathname || '/'
+  const from = user?.role === roles.user ? '/' : '/admin'
 
   const {
     register,
@@ -28,12 +30,13 @@ const Login = (props: Props) => {
     console.log(data)
     const { email, password } = data
     dispatch(login({ email, password }))
-
-    console.log(status)
-    // * after sub,mission
-    // navigate(from, { replace: true })
   }
 
+  useEffect(() => {
+    if (status === 'success') {
+      navigate(from, { replace: true })
+    }
+  },[status])
 
 
   return (

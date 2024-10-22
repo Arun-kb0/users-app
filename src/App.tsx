@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Users from './pages/Users'
 import CreateUser from './pages/CreateUser'
 import EditUser from './pages/EditUser'
@@ -17,11 +17,11 @@ import Unauthorized from './pages/Unauthorized'
 
 
 const App = () => {
-  
+  const location = useLocation()
 
   return (
     <>
-      <Navbar />
+     {location.pathname !== '/login'  && <Navbar />}
       <ToastContainer theme='dark' />
 
       <Routes>
@@ -29,12 +29,14 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/unauthorized' element={<Unauthorized />} />
 
-        <Route element={<RequireAuth allowedRoles={[roles.user]} />} >
+        <Route element={<RequireAuth role={roles.user} />} >
+
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
         </Route>
 
-        <Route element={<RequireAuth allowedRoles={[roles.admin]} />} >
+        <Route element={<RequireAuth role={roles.admin} />} >
+
           <Route path='/admin'  >
             <Route index element={<Users />} />
             <Route path='create' element={<CreateUser />} />

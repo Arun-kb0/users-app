@@ -1,11 +1,15 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { selectAuthUser } from '../features/auth/authSlice'
 
-type Props = {}
 
-const Home = (props: Props) => {
+const Home = () => {
+  const user = useSelector(selectAuthUser)
   return (
-    <main>
-      Home
+    <main className='main-section items-center' >
+      <h1 className='text-xl font-semibold text-gray-50'> welcome
+        <span className='font-bold text-orange-300 capitalize'>  {user?.name}  </span>
+      </h1>
     </main>
   )
 }

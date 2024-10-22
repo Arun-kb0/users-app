@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, refresh } from "./authApi";
+import { login, logout, refresh } from "./authApi";
 import { StateType, UserType } from "../../constant/types";
 import { RootState } from "../../app/store";
 
@@ -43,7 +43,11 @@ const authSlice = createSlice({
         state.status = 'success'
         state.accessToken = action.payload.accessToken
       })
-    
+
+      .addCase(logout.fulfilled, (state) => {
+        state.status = 'success'
+        state = initialState
+    })
   }
 })
 

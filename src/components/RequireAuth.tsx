@@ -1,20 +1,21 @@
 import React from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { roles } from '../constant/enums'
 import { useSelector } from 'react-redux'
 import { selectAuthUser } from '../features/auth/authSlice'
 
 type Props = {
-  allowedRoles: number[]
+  role: number
 }
 
-const RequireAuth = ({ allowedRoles }: Props) => {
+const RequireAuth = ({ role }: Props) => {
   // * chcek user and role and allow access
   const user = useSelector(selectAuthUser)
   const location = useLocation()
-
+  console.log(user?.email)
+  console.log(user?.role)
+  
   return (
-    user && allowedRoles.find(role=> user.role === role)
+    user && user.role === role
       ? <Outlet />
       : user
         ? < Navigate

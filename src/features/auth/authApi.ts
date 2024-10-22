@@ -28,3 +28,14 @@ export const refresh = createAsyncThunk('/auth/refresh', async () => {
     return errorHandler(error)
   }
 })
+
+export const logout = createAsyncThunk('/auth/logout', async () => {
+  try {
+    const res = await axiosInstance.get('/auth/logout', {
+      withCredentials: true
+    })
+    return res.data
+  } catch (error) {
+    return errorHandler(error)
+  }
+})
