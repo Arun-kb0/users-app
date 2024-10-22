@@ -1,10 +1,18 @@
 import React from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { login, refresh } from '../features/auth/authApi'
+import { AppDispatch } from '../app/store'
+import { selectAuthStatus } from '../features/auth/authSlice'
+import Spinner from '../components/Spinner'
 
 type Props = {}
 
 const Login = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
+  const status = useSelector(selectAuthStatus)
+
   const location = useLocation()
   const navigate = useNavigate()
   const from = location.state?.from?.pathname || '/'
@@ -18,13 +26,19 @@ const Login = (props: Props) => {
   const onSubmit = (data: FieldValues) => {
     console.log("data")
     console.log(data)
+    const { email, password } = data
+    dispatch(login({ email, password }))
 
+    console.log(status)
     // * after sub,mission
-    navigate(from, {replace: true})
+    // navigate(from, { replace: true })
   }
+
+
 
   return (
     <main className='main-section items-center'>
+      <button onClick={() => dispatch(refresh())} className='ring-2 ring-200'>refresh</button>
 
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-3 min-w-[300px]'>
         <h2 className='title text-center'> Login </h2>
@@ -71,7 +85,12 @@ const Login = (props: Props) => {
 
         </div>
 
-        <button type="submit" className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 capitalize">
+        <button
+          type="submit"
+          className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 capitalize">
+          {status === 'loading' &&
+            <Spinner />
+          }
           Login
         </button>
 

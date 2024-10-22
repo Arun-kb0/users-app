@@ -1,5 +1,8 @@
 import React from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { roles } from '../constant/enums'
+import { useSelector } from 'react-redux'
+import { selectAuthUser } from '../features/auth/authSlice'
 
 type Props = {
   allowedRoles: number[]
@@ -7,13 +10,13 @@ type Props = {
 
 const RequireAuth = ({ allowedRoles }: Props) => {
   // * chcek user and role and allow access
-  const auth = { user: 'aurn', roles: [2001] }
+  const user = useSelector(selectAuthUser)
   const location = useLocation()
 
   return (
-    auth?.roles.find(role => allowedRoles.includes(role))
+    user && allowedRoles.find(role=> user.role === role)
       ? <Outlet />
-      : auth?.user
+      : user
         ? < Navigate
           to='/unauthorized'
           state={{ from: location }}
