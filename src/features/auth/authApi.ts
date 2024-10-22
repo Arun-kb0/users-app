@@ -34,6 +34,7 @@ export const logout = createAsyncThunk('/auth/logout', async () => {
     const res = await axiosInstance.get('/auth/logout', {
       withCredentials: true
     })
+    console.log(res)
     return res.data
   } catch (error) {
     return errorHandler(error)

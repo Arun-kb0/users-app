@@ -8,14 +8,13 @@ import { selectAuthStatus, selectAuthUser } from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
 import { roles } from '../constant/enums'
 
-type Props = {}
 
-const Login = (props: Props) => {
+const Login = () => {
   const dispatch = useDispatch<AppDispatch>()
   const status = useSelector(selectAuthStatus)
   const user = useSelector(selectAuthUser)
 
-  const location = useLocation()
+  // const location = useLocation()
   const navigate = useNavigate()
   const from = user?.role === roles.user ? '/' : '/admin'
 
@@ -33,15 +32,14 @@ const Login = (props: Props) => {
   }
 
   useEffect(() => {
-    if (status === 'success') {
+    if (user) {
       navigate(from, { replace: true })
     }
-  },[status])
-
+  }, [user]) 
 
   return (
     <main className='main-section items-center'>
-      <button onClick={() => dispatch(refresh())} className='ring-2 ring-200'>refresh</button>
+      {/* <button onClick={() => dispatch(refresh())} className='ring-2 ring-200'>refresh</button> */}
 
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-3 min-w-[300px]'>
         <h2 className='title text-center'> Login </h2>

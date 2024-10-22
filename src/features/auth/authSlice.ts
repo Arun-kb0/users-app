@@ -45,9 +45,10 @@ const authSlice = createSlice({
       })
 
       .addCase(logout.fulfilled, (state) => {
-        state.status = 'success'
-        state = initialState
-    })
+        state.status = 'idle'
+        state.accessToken = undefined
+        state.user = undefined
+      })
   }
 })
 

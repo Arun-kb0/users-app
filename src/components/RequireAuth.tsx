@@ -13,7 +13,7 @@ const RequireAuth = ({ role }: Props) => {
   const location = useLocation()
   console.log(user?.email)
   console.log(user?.role)
-  
+
   return (
     user && user.role === role
       ? <Outlet />
