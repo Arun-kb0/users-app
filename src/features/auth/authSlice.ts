@@ -53,14 +53,17 @@ const authSlice = createSlice({
         state.user = undefined
       })
 
-      .addCase(uploadProfileImage.pending,(state)=> {
+      .addCase(uploadProfileImage.pending, (state) => {
         state.status = 'loading'
       })
-      .addCase(uploadProfileImage.fulfilled,(state,action)=> {
+      .addCase(uploadProfileImage.fulfilled, (state, action) => {
         state.status = 'success'
-        state.user= action.payload.user
+        const { user } = action.payload
+        if (user?.photo && user.photo.length !== 0) {
+          state.user = user
+        }
       })
-      .addCase(uploadProfileImage.rejected,(state,action)=> {
+      .addCase(uploadProfileImage.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message
       })

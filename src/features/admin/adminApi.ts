@@ -1,15 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import  { axiosPrivate } from "../../constant/axiosInstance";
+import { axiosPrivate } from "../../constant/axiosInstance";
 import { UserType } from "../../constant/types";
 import { toast } from "react-toastify";
 import errorHandler from "../../errorHandler/errorHandler";
 import { AppDispatch, RootState } from "../../app/store";
 import configureAxios from "../../constant/configureAxios";
+import { auth } from "../../config/firebaseConfig";
 
-export const fetchUsers = createAsyncThunk('/admin/fetchUsers', async (_, {dispatch,getState}) => {
+export const fetchUsers = createAsyncThunk('/admin/fetchUsers', async (_, { dispatch, getState }) => {
   try {
     const state = getState() as RootState
-    const accessToken = state.auth.accessToken 
+    const accessToken = state.auth.accessToken
     const dispatchFunction = dispatch as AppDispatch
     if (!accessToken) throw new Error(' no accessToken found ')
 
@@ -29,7 +30,7 @@ export const fetchUsers = createAsyncThunk('/admin/fetchUsers', async (_, {dispa
   }
 })
 
-export const createUserApi = createAsyncThunk('/admin/createUser', async (user: UserType,{dispatch,getState}) => {
+export const createUserApi = createAsyncThunk('/admin/createUser', async (user: UserType, { dispatch, getState }) => {
   try {
     const state = getState() as RootState
     const accessToken = state.auth.accessToken
@@ -37,7 +38,7 @@ export const createUserApi = createAsyncThunk('/admin/createUser', async (user: 
     if (!accessToken) throw new Error(' no accessToken found ')
 
     const removeInterceptors = await configureAxios(dispatchFunction, accessToken)
-    const res = await axiosPrivate.post('/admin/user',user)
+    const res = await axiosPrivate.post('/admin/user', user)
     removeInterceptors()
 
     if (res.status !== 200) throw new Error('create user failed')
@@ -50,12 +51,16 @@ export const createUserApi = createAsyncThunk('/admin/createUser', async (user: 
 })
 
 type EditUserApiArgs = { user: UserType, userId: string }
-export const editUserApi = createAsyncThunk('/admin/editUser', async ({ user, userId }: EditUserApiArgs,{dispatch,getState}) => {
+export const editUserApi = createAsyncThunk('/admin/editUser', async ({ user, userId }: EditUserApiArgs, { dispatch, getState }) => {
   try {
     const state = getState() as RootState
-    const accessToken = state.auth.accessToken
+    const { accessToken } = state.auth
+    const { currentUser } = state.admin
     const dispatchFunction = dispatch as AppDispatch
     if (!accessToken) throw new Error(' no accessToken found ')
+
+    user.photo = currentUser?.photo ? currentUser?.photo : ''
+    console.log(user)
 
     const removeInterceptors = await configureAxios(dispatchFunction, accessToken)
     const res = await axiosPrivate.patch(`/admin/user?userId=${userId}`, user)
@@ -72,7 +77,7 @@ export const editUserApi = createAsyncThunk('/admin/editUser', async ({ user, us
   }
 })
 
-export const deleteUserApi = createAsyncThunk('/admin/deleteUser', async (userId: string,{dispatch,getState}) => {
+export const deleteUserApi = createAsyncThunk('/admin/deleteUser', async (userId: string, { dispatch, getState }) => {
   try {
     const state = getState() as RootState
     const accessToken = state.auth.accessToken

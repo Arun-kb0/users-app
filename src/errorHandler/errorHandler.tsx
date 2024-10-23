@@ -2,19 +2,23 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const errorHandler = (error: any) => {
+  let message :string
   if (axios.isAxiosError(error)) {
     if (error.response) {
-      toast.error(`Error: ${error.response.data.message || 'Something went wrong'}`);
+      message = `Error: ${error.response.data.message || 'Something went wrong'}`
     } else if (error.request) {
-      toast.error('No response from server');
+      message = 'No response from server'
     } else {
-      toast.error(`Error: ${error.message}`);
+      message = `Error: ${error.message}`
     }
+  } else if (error instanceof Error) {
+    message = error.message
   } else {
-    toast.error('An unexpected error occurred');
+    message = 'unexpected error occurred'
   }
   
-  return error.message
+  toast.error(message);
+  return message
 }
 
 export default errorHandler

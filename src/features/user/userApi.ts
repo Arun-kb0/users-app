@@ -12,10 +12,23 @@ const uploadProfileImage = createAsyncThunk('/user/image', async (file: File, { 
     const { accessToken, user } = state.auth
     const dispatchFunction = dispatch as AppDispatch
     if (!accessToken) throw new Error('no accessToken found')
-
+    
+    const allowedFileTypes = ['image/jpeg', 'image/png']
+    if (!allowedFileTypes.includes(file.type)) {
+      throw new Error(`Only jpg and png allowed`)
+    }
+    
+    const maxSizeMB = 2
+    const maxSizeBytes = maxSizeMB * 1024 * 1024
+    if (!file) throw new Error('no file selected')
+    if (file.size > maxSizeBytes) {
+      throw new Error(`Image size exceeds the ${maxSizeMB}MB limit`)
+    }
+    
+    
     // * firebase
-    const path = '/users'
-    const filename = file.name + Date().toString()
+    const path = 'users/'
+    const filename = file.name + Date().toString() 
     const imageRef = ref(storage, path + filename)
     const res = await uploadBytes(imageRef, file)
     const url = await getDownloadURL(res.ref)
