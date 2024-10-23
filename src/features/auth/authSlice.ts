@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { login, logout, refresh } from "./authApi";
 import { StateType, UserType } from "../../constant/types";
 import { RootState } from "../../app/store";
+import { roles } from "../../constant/enums";
 
 type AuthStateType = {
   user: UserType | undefined,
@@ -42,6 +43,7 @@ const authSlice = createSlice({
       .addCase(refresh.fulfilled, (state, action) => {
         state.status = 'success'
         state.accessToken = action.payload.accessToken
+        state.user = action.payload.user
       })
 
       .addCase(logout.fulfilled, (state) => {

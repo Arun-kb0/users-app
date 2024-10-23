@@ -2,7 +2,6 @@ import React from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectAuthUser } from '../features/auth/authSlice'
-import { roles } from '../constant/enums'
 
 type Props = {
   role: number

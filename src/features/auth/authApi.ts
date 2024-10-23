@@ -25,7 +25,8 @@ export const refresh = createAsyncThunk('/auth/refresh', async () => {
     })
     return res.data
   } catch (error) {
-    return errorHandler(error)
+    if (error instanceof Error)
+      return error.message
   }
 })
 

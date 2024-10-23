@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Users from './pages/Users'
 import CreateUser from './pages/CreateUser'
@@ -12,12 +12,20 @@ import Home from './pages/Home'
 import Profile from './pages/Profile'
 import { roles } from './constant/enums'
 import Unauthorized from './pages/Unauthorized'
+import { useDispatch } from 'react-redux'
+import { refresh } from './features/auth/authApi'
+import { AppDispatch } from './app/store'
 
 
 
 
 const App = () => {
   const location = useLocation()
+  const dispatch = useDispatch<AppDispatch>()
+  
+  useEffect(() => {
+    dispatch(refresh())
+  },[])
 
   return (
     <>
