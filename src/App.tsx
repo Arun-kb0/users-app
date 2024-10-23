@@ -15,6 +15,7 @@ import Unauthorized from './pages/Unauthorized'
 import { useDispatch } from 'react-redux'
 import { refresh } from './features/auth/authApi'
 import { AppDispatch } from './app/store'
+import SearchResults from './pages/SearchResults'
 
 
 
@@ -49,6 +50,7 @@ const App = () => {
             <Route index element={<Users />} />
             <Route path='create' element={<CreateUser />} />
             <Route path='edit/:userId' element={<EditUser />} />
+            <Route path='/admin/search' element={<SearchResults/>} />
           </Route>
         </Route>
 

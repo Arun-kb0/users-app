@@ -4,7 +4,6 @@ import { selectAllUsers, selectUserError, selectUserStatus } from '../features/a
 import { fetchUsers } from '../features/admin/adminApi'
 import { AppDispatch } from '../app/store'
 import UserCard from '../features/admin/UserCard'
-import { toast } from 'react-toastify'
 
 const Users = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -35,7 +34,7 @@ const Users = () => {
   }
 
   return (
-    <section className='main-section'>
+    <section className='main-section '>
       <div className='px-4'>
         <h2 className='title'>Users</h2>
 

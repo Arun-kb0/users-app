@@ -99,3 +99,23 @@ export const deleteUserApi = createAsyncThunk('/admin/deleteUser', async (userId
     }
   }
 })
+
+export const searchUser = createAsyncThunk('/admin/search', async (searchText: string, { dispatch, getState }) => {
+  try {
+    const state = getState() as RootState
+    const accessToken = state.auth.accessToken
+    const dispatchFunction = dispatch as AppDispatch
+    if (!accessToken) throw new Error(' no accessToken found ')
+    if (!searchText || searchText.length === 0) {
+      throw new Error('invalid search string')
+    }
+    
+    const removeInterceptors = await configureAxios(dispatchFunction, accessToken)
+    const res = await axiosPrivate.get(`/admin/search?searchText=${searchText}`)
+    removeInterceptors()
+    return res.data.users 
+  } catch (error) {
+    console.log(error)
+    return errorHandler(error)
+  }
+})

@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { StateType, UserType } from "../../constant/types"
-import { createUserApi, deleteUserApi, editUserApi, fetchUsers } from "./adminApi"
+import { createUserApi, deleteUserApi, editUserApi, fetchUsers, searchUser } from "./adminApi"
 import { RootState } from "../../app/store"
 
 type UserStateType = {
   users: UserType[],
+  searchResult: UserType[],
   currentUser?: UserType
   status: StateType
   error: string | undefined
@@ -12,6 +13,7 @@ type UserStateType = {
 
 const initialState: UserStateType = {
   users: [],
+  searchResult:[],
   status: 'idle',
   error: undefined
 }
@@ -66,6 +68,18 @@ const adminSlice = createSlice({
         state.users = state.users.filter(user => user.userId !== userId)
       })
 
+      .addCase(searchUser.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(searchUser.fulfilled, (state, action: PayloadAction<UserType[]>) => {
+        state.status = 'success'
+        state.searchResult = action.payload
+      })
+      .addCase(searchUser.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+
 
   }
 })
@@ -73,11 +87,12 @@ const adminSlice = createSlice({
 
 export const selectAllUsers = (state: RootState) => state.admin.users
 export const selectCurrentUser = (state: RootState) => state.admin.currentUser
+export const selectSearchResult = (state: RootState) => state.admin.searchResult
 export const selectUserStatus = (state: RootState) => state.admin.status
 export const selectUserError = (state: RootState) => state.admin.error
 
 export const {
   getUserById
 } = adminSlice.actions
-
+ 
 export default adminSlice.reducer
