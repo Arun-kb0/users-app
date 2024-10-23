@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, refresh } from "./authApi";
+import { login, logout, refresh, signup } from "./authApi";
 import { StateType, UserType } from "../../constant/types";
 import { RootState } from "../../app/store";
 import { roles } from "../../constant/enums";
@@ -37,6 +37,20 @@ const authSlice = createSlice({
       })
 
       .addCase(login.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+
+      .addCase(signup.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.status = 'success'
+        const { user, accessToken } = action.payload
+        state.accessToken = accessToken
+        state.user = user
+      })
+      .addCase(signup.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message
       })

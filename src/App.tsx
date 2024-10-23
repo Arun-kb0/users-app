@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux'
 import { refresh } from './features/auth/authApi'
 import { AppDispatch } from './app/store'
 import SearchResults from './pages/SearchResults'
+import Signup from './pages/Signup'
 
 
 
@@ -23,20 +24,22 @@ import SearchResults from './pages/SearchResults'
 const App = () => {
   const location = useLocation()
   const dispatch = useDispatch<AppDispatch>()
-  
+  const hideNavbarPaths = ['/login', '/signup']
+
   useEffect(() => {
     dispatch(refresh())
-  },[])
+  }, [])
 
   return (
     <>
-     {location.pathname !== '/login'  && <Navbar />}
+      {!hideNavbarPaths.includes(location.pathname) && <Navbar />}
       <ToastContainer theme='dark' />
 
       <Routes>
 
+        <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/unauthorized' element={<Unauthorized  message='Unauthorized' desc="you don't have permission to access this route" />} />
+        <Route path='/unauthorized' element={<Unauthorized message='Unauthorized' desc="you don't have permission to access this route" />} />
 
         <Route element={<RequireAuth role={roles.user} />} >
           <Route path='/' element={<Home />} />
@@ -48,7 +51,7 @@ const App = () => {
             <Route index element={<Users />} />
             <Route path='create' element={<CreateUser />} />
             <Route path='edit/:userId' element={<EditUser />} />
-            <Route path='/admin/search' element={<SearchResults/>} />
+            <Route path='/admin/search' element={<SearchResults />} />
           </Route>
         </Route>
 

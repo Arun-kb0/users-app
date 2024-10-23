@@ -1,15 +1,22 @@
 import { FieldValues, useForm } from 'react-hook-form'
-import { UserType } from '../../constant/types'
-import { useDispatch } from 'react-redux'
-import { createUserApi, editUserApi } from './adminApi'
-import { AppDispatch } from '../../app/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch } from '../app/store'
+import { UserType } from '../constant/types'
+import { Link, useNavigate } from 'react-router-dom'
+import { signup } from '../features/auth/authApi'
+import { useEffect } from 'react'
+import { roles } from '../constant/enums'
+import { selectAuthStatus, selectAuthUser } from '../features/auth/authSlice'
+import Spinner from './Spinner'
 
-type Props = {
-  user?: UserType
-}
 
-const CreateFrom = ({ user }: Props) => {
+const SignupForm = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+  const user = useSelector(selectAuthUser)
+  const status = useSelector(selectAuthStatus)
+
+  // const from = user?.role === roles.user ? '/' : '/admin'
 
   const {
     register,
@@ -20,21 +27,22 @@ const CreateFrom = ({ user }: Props) => {
   } = useForm()
 
   const onSubmit = (data: FieldValues) => {
-    console.log("data")
-    console.log(data)
     const { confirmPassword, ...rest } = data
     const userData = { photo: '', ...rest } as UserType
-    if (user) {
-      dispatch(editUserApi({ user: userData, userId: user.userId }))
-      return
-    }
-    dispatch(createUserApi(userData))
+    console.log(userData)
+    dispatch(signup(userData))
   }
+
+  useEffect(() => {
+    if (user) {
+      navigate('/', { replace: true })
+    }
+  }, [user]) 
 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-3 min-w-[300px]'>
-      <h2 className='title'>{user ? "edit user" : "create user"} </h2>
+      <h2 className='title'> Sign up </h2>
       <div className="grid space-y-4">
         <div>
           <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -116,19 +124,19 @@ const CreateFrom = ({ user }: Props) => {
       </div>
 
       <button type="submit" className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 capitalize">
-        {user ? "edit" : "create"}
+        {status ==='loading' && <Spinner/> }
+        Signup
       </button>
 
-      {user &&
-        <button onClick={() => resetForm()} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800" >
-          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-            Reset
-          </span>
-        </button>
-      }
+
+      <div className='flex space-x-2'>
+        <p>already have an account </p>
+        <Link to='/login' className='text-blue-400'> login </Link>
+      </div>
+
 
     </form>
   )
 }
 
-export default CreateFrom
+export default SignupForm

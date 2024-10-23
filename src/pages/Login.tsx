@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { login, refresh } from '../features/auth/authApi'
 import { AppDispatch } from '../app/store'
 import { selectAuthStatus, selectAuthUser } from '../features/auth/authSlice'
@@ -94,6 +94,11 @@ const Login = () => {
           }
           Login
         </button>
+
+        <div className='flex space-x-2'>
+          <p>don't have an account </p>
+          <Link to='/signup' className='text-blue-400'> Sign up </Link>
+        </div>
 
       </form>
 

@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { deleteUserApi } from './adminApi';
 import { AppDispatch } from '../../app/store';
 import nouser from '../../assets/nouser-photo.jpg'
+import { roles } from '../../constant/enums';
 
 type Props = {
   user: UserType
@@ -33,7 +34,7 @@ const UserCard = ({ user }: Props) => {
           <Link to={`/admin/edit/${user.userId}`} >
             <FaEdit size={24} className='text-orange-400' />
           </Link>
-          <button onClick={handleDelete}>
+          <button onClick={handleDelete} className={`${user.role===roles.admin && "hidden"} `}>
             <MdDelete size={24} className='text-red-500' />
           </button>
         </div>
