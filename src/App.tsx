@@ -36,16 +36,14 @@ const App = () => {
       <Routes>
 
         <Route path='/login' element={<Login />} />
-        <Route path='/unauthorized' element={<Unauthorized />} />
+        <Route path='/unauthorized' element={<Unauthorized  message='Unauthorized' desc="you don't have permission to access this route" />} />
 
         <Route element={<RequireAuth role={roles.user} />} >
-
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
         </Route>
 
         <Route element={<RequireAuth role={roles.admin} />} >
-
           <Route path='/admin'  >
             <Route index element={<Users />} />
             <Route path='create' element={<CreateUser />} />
@@ -54,6 +52,7 @@ const App = () => {
           </Route>
         </Route>
 
+        <Route path="*" element={<Unauthorized message='not found' desc="this route doesn't exists" />} />
       </Routes>
     </>
   )

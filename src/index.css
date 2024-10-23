@@ -9,7 +9,7 @@
   }
 
   .title{
-    @apply font-semibold text-2xl py-3 text-white capitalize
+    @apply font-semibold text-2xl py-3 capitalize text-center text-cyan-200;
   }
 
   .center-contents{

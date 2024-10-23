@@ -1,16 +1,19 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-
-const Unauthorized = () => {
+type Props = {
+  message :string,
+  desc:string
+}
+const Unauthorized = ({message,desc}:Props) => {
   const navigate = useNavigate()
   const goBack = () => navigate(-1)
 
   return (
     <main className='main-section items-center'>
       <div className='space-y-5'>
-        <p className='text-2xl font-semibold text-center text-orange-300'>Unauthorized</p>
-        <p className='text-lg text-center '> you don't have permission to access this route</p>
+        <p className='capitalize text-2xl font-semibold text-center text-orange-300'>{message}</p>
+        <p className='text-lg text-center '>{desc}</p>
         <div className='flex justify-center '>
         <button
           onClick={goBack}

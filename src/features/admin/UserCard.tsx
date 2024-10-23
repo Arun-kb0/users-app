@@ -22,7 +22,7 @@ const UserCard = ({ user }: Props) => {
   }
 
   return (
-    <section className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <section className="sm:max-w-xs w-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <a className=''> 
         <img className="rounded-t-lg w-full max-h-[200px]  h-auto object-cover " src={user.photo ? user.photo : nouser } alt={user.name} />
       </a>

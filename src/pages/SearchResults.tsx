@@ -13,7 +13,7 @@ const SearchResults = (props: Props) => {
 
   let content: React.ReactNode
   if (status === 'loading') {
-    content = <div className='center-contents'>  <Spinner size={10}/> </div>
+    content = <div className='center-contents'>  <Spinner/> </div>
   } else if (status === 'success') {
     content = searchResult.length !== 0
       ? searchResult.map(user => (

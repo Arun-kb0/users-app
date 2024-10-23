@@ -27,7 +27,7 @@ const UserProfileCard = ({ user, status }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full min-w-[550px] p-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full sm:min-w-[550px]  p-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="flex flex-col items-center pb-10">
         <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={user.photo ? user.photo : nouser} alt={user.name} />
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{user.name}</h5>
