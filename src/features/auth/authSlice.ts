@@ -3,6 +3,7 @@ import { login, logout, refresh } from "./authApi";
 import { StateType, UserType } from "../../constant/types";
 import { RootState } from "../../app/store";
 import { roles } from "../../constant/enums";
+import { uploadProfileImage } from "../user/userApi";
 
 type AuthStateType = {
   user: UserType | undefined,
@@ -50,6 +51,18 @@ const authSlice = createSlice({
         state.status = 'idle'
         state.accessToken = undefined
         state.user = undefined
+      })
+
+      .addCase(uploadProfileImage.pending,(state)=> {
+        state.status = 'loading'
+      })
+      .addCase(uploadProfileImage.fulfilled,(state,action)=> {
+        state.status = 'success'
+        state.user= action.payload.user
+      })
+      .addCase(uploadProfileImage.rejected,(state,action)=> {
+        state.status = 'failed'
+        state.error = action.error.message
       })
   }
 })
