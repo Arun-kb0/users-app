@@ -16,7 +16,7 @@ const EditUser = () => {
       dispatch(getUserById(userId))
       console.log('reset click')
     }
-  }, [userId, reset])
+  }, [])
 
   return (
     <section className='main-section'>

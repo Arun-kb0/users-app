@@ -26,7 +26,7 @@ const adminSlice = createSlice({
     getUserById: (state, action: PayloadAction<string>) => {
       const userId = action.payload
       const user = state.users.find(user => user.userId === userId)
-      return { ...state, currentUser: user }
+      state.currentUser = user
     }
   },
 
@@ -52,15 +52,18 @@ const adminSlice = createSlice({
 
       .addCase(editUserApi.fulfilled, (state, action: PayloadAction<UserType>) => {
         state.status = 'success'
-        const user = action.payload
-        state.users =  state.users.filter(item => item.userId !== user.userId)
-        state.users.push(user)
+        const updatedUser = action.payload
+        const index = state.users.findIndex(user => user.userId === updatedUser.userId)
+        index !== -1
+          ? state.users[index] = updatedUser
+          : state.users.push(updatedUser)
+        state.currentUser = updatedUser
       })
 
       .addCase(deleteUserApi.fulfilled, (state, action: PayloadAction<UserType>) => {
         state.status = 'success'
         const { userId } = action.payload
-        state.users =  state.users.filter(user => user.userId !== userId)
+        state.users = state.users.filter(user => user.userId !== userId)
       })
 
 
